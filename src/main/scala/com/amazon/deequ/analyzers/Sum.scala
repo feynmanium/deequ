@@ -18,7 +18,7 @@ package com.amazon.deequ.analyzers
 
 import com.amazon.deequ.analyzers.Preconditions.{hasColumn, isNumeric}
 import org.apache.spark.sql.functions.sum
-import org.apache.spark.sql.types.{DoubleType, StructType}
+import org.apache.spark.sql.types.StructType
 import org.apache.spark.sql.{Column, Row}
 import Analyzers._
 
@@ -38,7 +38,7 @@ case class Sum(column: String, where: Option[String] = None)
   with FilterableAnalyzer {
 
   override def aggregationFunctions(): Seq[Column] = {
-    sum(conditionalSelection(column, where)).cast(DoubleType) :: Nil
+    sum(conditionalSelection(column, where)) :: Nil
   }
 
   override def fromAggregationResult(result: Row, offset: Int): Option[SumState] = {

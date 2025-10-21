@@ -20,7 +20,6 @@ import com.amazon.deequ.analyzers.Preconditions.{hasColumn, isNumeric}
 import com.amazon.deequ.metrics.Entity
 import org.apache.spark.sql.DeequFunctions.stateful_corr
 import org.apache.spark.sql.{Column, Row}
-import org.apache.spark.sql.types.DoubleType
 import org.apache.spark.sql.functions._
 import org.apache.spark.sql.types.StructType
 import Analyzers._
@@ -65,7 +64,7 @@ case class RatioOfSums(
   override def aggregationFunctions(): Seq[Column] = {
     val firstSelection = conditionalSelection(numerator, where)
     val secondSelection = conditionalSelection(denominator, where)
-    sum(firstSelection).cast(DoubleType) :: sum(secondSelection).cast(DoubleType) :: Nil
+    sum(firstSelection) :: sum(secondSelection) :: Nil
   }
 
   override def fromAggregationResult(
